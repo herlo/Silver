@@ -1,6 +1,6 @@
-What is PyCamps?
+What is Silver?
 ================
-PyCamps is inspired by the Perl based `DevCamps project <http://devcamps.org/>`_ created by `EndPoint <http://www.endpoint.com/>`_. The idea is simply to make it easy for developers to have their own little environments to build web applications. 
+Silver, formerly `PyCamps <http://github.com/herlo/PyCamps/>`_, is inspired by the Perl based `DevCamps project <http://devcamps.org/>`_ created by `EndPoint <http://www.endpoint.com/>`_. The idea is simply to make it easy for developers to have their own environments to build fully functional web applications (with a database) quickly and in a repeatable way.
 
-Please see the `PyCamps project site <http://projects.purpleatom.com/pycamps/>`_ to get started.
+Please see the `Silver project documentation <https://projects.purpleatom.com/silver/>`_ to get started.
 
