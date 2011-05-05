@@ -12,10 +12,13 @@ Dependencies
 * LVM2 (for database snapshots)
 * Apache Web Server >= 2.2 (http://httpd.apache.org)
 * MySQL Database Server >= 5.1.52 (http://mysql.com)
-* git-python = 0.2x (http://gitorious.org/projects/git-python/)
+* MySQL-python >= 1.2.1 (http://sourceforge.net/projects/mysql-python/)
 * sqlite >= 3.0 (http://www.sqlite.org/)
 * python-sqlite2 >= 2.3.3 (http://www.sqlite.org/)
 * python-paramiko >= 1.7.6 (http://www.sqlite.org/)
+* GitPython = 0.2x (http://gitorious.org/projects/git-python/)
+* func >= 0.24 (https://fedorahosted.org/func/)
+* certmaster >= 0.24 (https://fedorahosted.org/certmaster/)
 
 Assumptions
 -----------
