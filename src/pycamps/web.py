@@ -42,8 +42,11 @@ class Web:
         stdin, stdout, stderr = self.sshclient.exec_command("""expand %s""" % camp_name)
 
         self.perm_list = []
-        for line in stdout.read().splitlines()[2:]:
-            self.perm_list = line.split('\t')[0].strip().split('  ')
+        line = stdout.read().splitlines()[-1:]
+        perms = line[0].split('\t')[0]
+        for p in perms.split('  '):
+            if len(p):
+                self.perm_list.append(p.strip())
 
         stdin.close()
         stdout.close()
@@ -127,7 +130,11 @@ class Web:
                 raise CampError("""Please commit/stash uncommitted code, or use -f/--force option at your own risk""")
             repo.remotes[self.project].pull('refs/heads/master:refs/heads/master')
         except AssertionError, e:
-            raise CampError("""Update failed with error: %s""" % e)
+            # GitPython has a nasty assert bug here that we have to try again if it rears its head.
+            try:
+                repo.remotes[self.project].pull('refs/heads/master:refs/heads/master')
+            except AssertionError, e:
+                raise CampError("""Update failed with error: %s""" % e)
         except IndexError, e:
             raise CampError("""Update failed with error: %s""" % e)
 

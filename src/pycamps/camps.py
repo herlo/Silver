@@ -268,7 +268,7 @@ class Camps:
         status_txt += """    db location:\t%s\n""" % db_location
         status_txt += """    db snap:\t\t/dev/%s/%s\n""" % (lv_info['vg'], campname)
         if db_usage:
-            status_txt += """    db usage:\t\t%s total /%s used /%s available\n""" % (db_usage[0], db_usage[1], db_usage[2])
+            status_txt += """    db usage:\t\t%s total / %s used / %s available\n""" % (db_usage[0].strip(), db_usage[1].strip(), db_usage[2].strip())
 
         print status_txt
 
@@ -388,8 +388,14 @@ class Camps:
         if not args.db and not args.web and not args.all:
             raise CampError("""Please provide one of the following [--db] [--web] [--all]""")
 
-        if args.db or args.all:
+        if args.id:
+            self.camp_id = args.id
+        else:
+            self.camp_id = self._get_camp_id()
+            if not self.camp_id:
+                raise CampError("""Please provide the camp id with --id option or move to the camp home.""")
 
+        if args.db or args.all:
             if not args.force:
                 self._validate_action("A refresh will destroy any database changes for %s" % (self._get_campname()))
 
