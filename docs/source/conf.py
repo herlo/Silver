@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# PyCamps documentation build configuration file, created by
+# Silver documentation build configuration file, created by
 # sphinx-quickstart on Fri Apr  1 13:30:41 2011.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -41,7 +41,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PyCamps'
+project = u'Silver'
 copyright = u'2011, Clint Savage <herlo1@gmail.com>'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -165,7 +165,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PyCampsdoc'
+htmlhelp_basename = 'Silverdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -179,7 +179,7 @@ htmlhelp_basename = 'PyCampsdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PyCamps.tex', u'PyCamps Documentation',
+  ('index', 'Silver.tex', u'Silver Documentation',
    u'Clint Savage', 'manual'),
 ]
 
@@ -212,7 +212,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pycamps', u'PyCamps Documentation',
+    ('index', 'pycamps', u'Silver Documentation',
      [u'Clint Savage'], 1)
 ]
 
@@ -220,7 +220,7 @@ man_pages = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'PyCamps'
+epub_title = u'Silver'
 epub_author = u'Clint Savage'
 epub_publisher = u'Clint Savage'
 epub_copyright = u'2011, Clint Savage'

@@ -1,11 +1,17 @@
-PyCamps Tutorial
+Silver Tutorial
 ================
 
-Let's start with the most common scenario for PyCamps. These will be the most common ways to use the system. Other common tools and commands can be found in the :doc:`usage guide </usage_guide>`.
+Let's start with the most common scenario for Silver. These will be the most common ways to use the system. Other common tools and commands can be found in the :doc:`usage guide </usage_guide>`.
 
-Setting up Projects
--------------------
-PyCamps makes heavy use of some of the core pieces of Gitolite. While Gitolite isn't *technically* required, it is highly recommended. Keep in mind, however, that the concepts of sharing/cloning camps may not work properly, see 'Camp Sharing' in :doc:`admin_config_guide` for more information.   
+Projects
+--------
+A project, in Silver is effectively a website or a component of a website. For instance, a wordpress blog could be a project, or a django poll could be a project. A project could be for migrating from one technology to another. 
+
+Everything that lives within a single project should live within a single source code repository and function independent of other projects. Projects may have points where they work together, but they really should not have shared code.
+
+A Project Repository
+^^^^^^^^^^^^^^^^^^^^
+Silver makes heavy use of some of the core pieces of Gitolite. While Gitolite isn't *technically* required, it is highly recommended. Keep in mind, however, that the concepts of sharing/cloning camps may not work properly, see 'Camp Sharing' in :doc:`admin_config_guide` for more information.   
 
 If this is the first time installing gitolite, please read the very `excellent documentation <https://github.com/sitaramc/gitolite#start>`_. 
 
@@ -27,9 +33,9 @@ The gitolite-admin.conf should have a section for admins. These admins should ma
             RW  =   WRITERS
             R   =   READERS
 
-The first repo configuration 'community/master' defines the location from which a new camp will pull its original source code. The second entry, is intended to be used to keep all camp code in one location. As stated before, the master repository is optional and could come from such places as github.com or fedorahosted.org. Unfortunately, for now, the camp repositories are required to be on gitolite for now as PyCamps uses this information internally. It is **highly** recommended to use gitolite on-site for PyCamps.
+The first repo configuration 'community/master' defines the location from which a new camp will pull its original source code. The second entry, is intended to be used to keep all camp code in one location. As stated before, the master repository is optional and could come from such places as github.com or fedorahosted.org. Unfortunately, for now, the camp repositories are required to be on gitolite for now as Silver uses this information internally. It is **highly** recommended to use gitolite on-site for Silver.
 
-As stated in the `gitolite documentation <https://github.com/sitaramc/gitolite#start>`_, when a camp is initiated the CREATOR owns the repository and in this case will have the ability to Read / Write and Rewind the repository. In addition, the CREATOR can also grant rights to other users, allowing them to use their repository. This is one of the killer features of PyCamps called :doc:`Camp Sharing </usage_guide>`.
+As stated in the `gitolite documentation <https://github.com/sitaramc/gitolite#start>`_, when a camp is initiated the CREATOR owns the repository and in this case will have the ability to Read / Write and Rewind the repository. In addition, the CREATOR can also grant rights to other users, allowing them to use their repository. This is one of the killer features of Silver called :doc:`Camp Sharing </usage_guide>`.
 
 Once gitolite is configured, the project will need a good baseline before a camp can be cloned. When a project is already running, it's pretty simple to make a good baseline. Essentially, the source code needs to run which likely means a copy of the live environment usually works.  A couple of things to think about while building the baseline source code.
 
@@ -49,7 +55,9 @@ Clone the repository and create a 'develop' branch::
     $ mkdir shop/
     $ echo "<?php phpinfo(); ?>" > shop/index.php
     
-At each stage during the baseline creation, don't forget to document, commit code often. Keep code commits small so they are easy to rollback::
+.. note:: At each stage during the baseline creation, don't forget to document, commit code often. Keep code commits small so they are easy to rollback
+
+::
 
     $ git add file [file...]
     $ git commit -m "reason for committing"
@@ -65,18 +73,18 @@ After the baseline code works with a web server and database, make sure all code
     To git@git.example.com:community/master
        c098394..9b82e49  master -> master
 
-At this point, the project is ready to be cloned. **Lather, rinse and repeat** for every project to be used with PyCamps.
+At this point, the project is ready to be cloned. **Lather, rinse and repeat** for every project to be used with Silver.
  
 Managing Projects
 ------------------
-PyCamps is used to grab code from the master code repository and allow editing into a separate camp repository. Camps can be initialized from this by creating a project.  This can *only* be done by an admin, which is set in the :attr:`ADMINS` property of :mod:`config.settings`.  
+Silver is used to grab code from the master code repository and allow editing into a separate camp repository. Camps can be initialized from this by creating a project.  This can *only* be done by an admin, which is set in the :attr:`ADMINS` property of :mod:`config.settings`.  
 
 Add a Project
 ^^^^^^^^^^^^^
 Adding a new project is generally very simple.::
 
-    $ pc project add -h
-    usage: pc project add [-h] [--owner owner] name desc rcs_url lvm_path size
+    $ ag project add -h
+    usage: ag project add [-h] [--owner owner] name desc rcs_url lvm_path size
     
     positional arguments:
       name           project name to add
@@ -87,7 +95,7 @@ Adding a new project is generally very simple.::
 
 To add the project, provide the above fields.  If the owner is not the same as the person setting up the project, this should also be set::
 
-	$ pc project add community 'community magento website' 'gitolite@git.example.org:community/master' '/dev/db/community' '200m'
+	$ ag project add community 'community magento website' 'gitolite@git.example.org:community/master' '/dev/db/community' '200m'
 	== Adding community to project list ==
 	Activating 'community'
 	Project community, with remote repo: gitolite@git.example.org:community/master, failed to activate. Please ensure you can clone
@@ -99,13 +107,13 @@ Edit a Project
 ^^^^^^^^^^^^^^
 ::
 
-    $ pc project edit community --remote 'gitolite@git.example.com:community/master'
+    $ ag project edit community --remote 'gitolite@git.example.com:community/master'
 
 List Projects
 ^^^^^^^^^^^^^
 ::
 
-    $ pc project list -ln community
+    $ ag project list -ln community
     == Project List ==
     Project: community 'community magento website' (owner: clints) INACTIVE
         [remote: gitolite@git.example.com:community/master, webserver: httpd, database server: mysql, master db: /dev/db/community, snap size: 200m]
@@ -116,7 +124,7 @@ Activate a Project
 ^^^^^^^^^^^^^^^^^^
 ::
 
-    $ pc project activate community
+    $ ag project activate community
     Activating 'community'
     Project: community with remote repo: gitolite@git.example.com:community/master, has been activated by clints
 
@@ -127,11 +135,11 @@ Deactivate a Project
 ^^^^^^^^^^^^^^^^^^^^
 Once in a while, there is a need to deactivate a particular project.  This is usually because it's has come to end of life or is just too hard to maintain.  However, it might still be desired to reactivate the project later.  A camp can not be initialized from an inactive project and would have to be activated if it were desired to be used again.  To deactivate a project::
 
-    $ pc project rm abd
+    $ ag project rm abd
     Deactivating 'abd'
     Project 'abd' deactivated
 
-Any existing camp can continue to use its own repo, but will not be able to update from the master repo (using pc camp refresh).  
+Any existing camp can continue to use its own repo, but will not be able to update from the master repo (using *ag camp refresh*).
 
 Utilizing Camps
 ---------------
@@ -141,7 +149,7 @@ Initialize a Camp
 ^^^^^^^^^^^^^^^^^
 ::
 
-    $ pc camp init community -d 'applying company theme'
+    $ ag camp init community -d 'applying company theme'
     == Creating camp74 ==
     camp74 database snapshot complete
     camp74 database configured
@@ -179,23 +187,23 @@ List Camps
 ^^^^^^^^^^
 Another useful thing might be to see what camps are being used::
 
-    $ pc camp list
+    $ ag camp list
     == Camps List ==
     camp74 'applying company theme' (project: community, owner: clints) ACTIVE
     camp76 'adding shipping details' (project: community, owner: kynalya) ACTIVE
 
 Other useful options: *-l* (long [detail] list) and *-i* (specific camp id)::
 
-    $ pc camp list -l -i 65
+    $ ag camp list -l -i 65
     == Camps List ==
     camp65 'no description' (project: rma, owner: kynalya) INACTIVE
    	    [path: /home/kynalya/camps/camp65, remote: None, db host: localhost, db port: 3365]
 
 Start/Stop/Restart Camps
 ^^^^^^^^^^^^^^^^^^^^^^^^
-Because of the way that PyCamps is configured, stopping and starting the database is very simple::
+Because of the way that Silver is configured, stopping and starting the database is very simple::
 
-    $ pc camp stop
+    $ ag camp stop
     Stopping database on camp77
     camp77 database stopped
 
@@ -206,7 +214,7 @@ A simple process query makes sure it's stopped::
 
 Start the camp again::
 
-    $ pc camp start
+    $ ag camp start
     Starting database on camp77
     camp77 database started
 
@@ -221,7 +229,7 @@ Make sure it started::
 
 In addition, restarting the web server can also be done very easily::
 
-    $ pc camp restart --web
+    $ ag camp restart --web
     restarting web server
     camp77 web server restarted
 
@@ -233,10 +241,10 @@ Refresh a Camp
 ^^^^^^^^^^^^^^
 Refreshing a camp can be useful in at least two scenarios. Either the camp needs a new database snapshot, or the camp needs an update from the master repository. In many cases a camp may need both of these. A camp refresh can handle these updates::
 
-    $ pc camp refresh
+    $ ag camp refresh
     Please provide one of the following [--db] [--web] [--all]
 
-    $ pc camp refresh --all
+    $ ag camp refresh --all
     A refresh will destroy any database changes for camp106
     Is this okay [y/N]: y
     stopping db on camp106
@@ -257,13 +265,13 @@ Camp Sharing
 ^^^^^^^^^^^^
 Sometimes sharing code between camps can be especially painful. If the two camps are in different home directories, copying code back and forth is painful. In addition, copying code around is really bad form. Instead, take the time to share a camp with another user, this will allow the other user to pull the shared camp into and properly merge the camp using revision control. Sharing can be done the other way so both camps can push to and pull from the other collaborative camp::
 
-    $ pc camp share kynalya R
+    $ ag camp share kynalya R
     Sharing camp106 with R permissions for kynalya
     camp106 is now shared with R permissions for kynalya
 
 The :command:`status` command provides information regarding the shared camp::
 
-    $ pc camp status
+    $ ag camp status
      --- camp106 ---
 
         status:		ACTIVE
@@ -289,7 +297,7 @@ The :command:`status` command provides information regarding the shared camp::
 
 Pulling in code is now simple, just make sure to be inside the desired camp::
 
-    [camp108]$ pc camp pull 106
+    [camp108]$ ag camp pull 106
     Pulling from a shared camp may require manually merging code
     Is this okay [y/N]: y
     pulling in code from shared camp106
@@ -300,7 +308,7 @@ Pulling in code is now simple, just make sure to be inside the desired camp::
 
 It may also be desirable to push changes back to the shared camp::
 
-    [camp108]$ pc camp push 106
+    [camp108]$ ag camp push 106
     Pushing to shared repo, camp106
     Is this okay [y/N]: y
     pushing code to shared camp106
@@ -308,7 +316,7 @@ It may also be desirable to push changes back to the shared camp::
 
 Read-write access (RW) must be granted to the user attempting the push. If read-write access is not granted to the user, an error will occur and the push will fail::
 
-    [camp108]$ pc camp push 106
+    [camp108]$ ag camp push 106
     Pushing to shared repo, camp106
     Is this okay [y/N]: y
     pushing code to shared camp106
@@ -317,7 +325,7 @@ Read-write access (RW) must be granted to the user attempting the push. If read-
 Of course, when things settle down a little, it's possible the camp no longer
 needs to be shared::
 
-    $ pc camp unshare kynalya
+    $ ag camp unshare kynalya
     Removing shared access to camp106 for kynalya
     Is this okay [y/N]: y
     Sharing for user 'kynalya' has been removed from camp106

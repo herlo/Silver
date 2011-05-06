@@ -1,4 +1,4 @@
-# Main class for pycamps
+# Main class for silver
 
 import os
 import stat
@@ -10,12 +10,12 @@ import shutil
 import git
 from git.errors import InvalidGitRepositoryError, NoSuchPathError, GitCommandError
 
-import pycamps.config.settings as settings
-from pycamps.config.campsdb import *
-from pycamps.config.projectsdb import *
-from pycamps.campserror import *
-from pycamps.web import Web
-from pycamps.db import DB
+import silver.config.settings as settings
+from silver.config.campsdb import *
+from silver.config.projectsdb import *
+from silver.campserror import *
+from silver.web import Web
+from silver.db import DB
 
 class Camps:
     """

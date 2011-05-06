@@ -1,9 +1,9 @@
-.. PyCamps documentation master file, created by
+.. Silver documentation master file, created by
    sphinx-quickstart on Fri Apr  1 13:30:41 2011.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-PyCamps |ver| documentation
+Silver |ver| documentation
 ===========================
 
 Contents:

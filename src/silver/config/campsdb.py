@@ -1,4 +1,4 @@
-# PyCamps database manager
+# Silver database manager
 
 import os
 try:
@@ -6,7 +6,7 @@ try:
 except:
     from pysqlite2 import dbapi2 as sqlite
 
-import pycamps.config.settings as settings
+import silver.config.settings as settings
 
 class CampsDB:
     
@@ -94,7 +94,7 @@ class CampsDB:
         return self.get_camp_info(camp_id)['proj']
 
 def main():                         
-    camp_db = PyCampsDB()
+    camp_db = silverDB()
     infos = camp_db.create_camp('test camp', '/home', 'clints', 'test', 'test', 'localhost')
     print "Infos: %s" % str(infos)
 

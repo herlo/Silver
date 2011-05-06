@@ -1,6 +1,6 @@
-Installing PyCamps
+Installing Silver
 ==================
-The installation of PyCamps is a bit arduous and time-consuming.  The hope is to automate some of the steps needed to setup and configure the PyCamps environment.  For now, this guide does a pretty good job of walking you through the initial setup and configuration required to make PyCamps work.  And luckily, the configurations only need to be done once.
+The installation of Silver is a bit arduous and time-consuming.  The hope is to automate some of the steps needed to setup and configure the Silver environment.  For now, this guide does a pretty good job of walking you through the initial setup and configuration required to make Silver work.  And luckily, the configurations only need to be done once.
 
 .. warning:: Some of the concepts listed here require understanding of concepts elsewhere in this documentation. Please read the entire documention before beginning installation.
 
@@ -12,16 +12,19 @@ Dependencies
 * LVM2 (for database snapshots)
 * Apache Web Server >= 2.2 (http://httpd.apache.org)
 * MySQL Database Server >= 5.1.52 (http://mysql.com)
-* git-python = 0.2x (http://gitorious.org/projects/git-python/)
+* MySQL-python >= 1.2.1 (http://sourceforge.net/projects/mysql-python/)
 * sqlite >= 3.0 (http://www.sqlite.org/)
 * python-sqlite2 >= 2.3.3 (http://www.sqlite.org/)
 * python-paramiko >= 1.7.6 (http://www.sqlite.org/)
+* GitPython = 0.2x (http://gitorious.org/projects/git-python/)
+* func >= 0.24 (https://fedorahosted.org/func/)
+* certmaster >= 0.24 (https://fedorahosted.org/certmaster/)
 
 Assumptions
 -----------
-First thing, this install guide can refer to outside material often. Please take the time to read and understand at least the basics of each application used in PyCamps. It is imperative to a successful installation.
+First thing, this install guide can refer to outside material often. Please take the time to read and understand at least the basics of each application used in Silver. It is imperative to a successful installation.
 
-As described in the :doc:`intro` document. PyCamps has both projects and camps. The goal of this installation guide is to setup and configure first, the Project(s) for which the camps will be using, and second, the environment in which the camps will reside. Simplicity is attempted at every turn, though sometimes, it is impossible. 
+As described in the :doc:`intro` document. Silver has both projects and camps. The goal of this installation guide is to setup and configure first, the Project(s) for which the camps will be using, and second, the environment in which the camps will reside. Simplicity is attempted at every turn, though sometimes, it is impossible. 
 
 In this documentation, the Project will be called '**community**'. Its source code repository will reside at '**git\@git.example.com:community/master**'. The community project will have a Logical Volume (LV) defined as '**/dev/db/community**'. These conventions will be used throughout this document.
 
@@ -31,20 +34,20 @@ Get the Source Code
 -------------------
 Get the latest tarball from github::
 
-    $ wget https://github.com/downloads/herlo/PyCamps/PyCamps-0.2.0.tar.gz
-    $ tar xvf PyCamps-0.2.0.tar.gz -C /path/to/PyCamps
+    $ wget https://github.com/downloads/herlo/silver/silver-0.2.0.tar.gz
+    $ tar xvf silver-0.2.0.tar.gz -C /path/to/silver
 
 \- or -
 
 Grab the source code using git::
 
-    $ git clone git@github.com:herlo/PyCamps.git
+    $ git clone git@github.com:herlo/silver.git
 
-PyCamps Install
+Silver Install
 ---------------
 ::
 
-    $ cd /path/to/PyCamps  
+    $ cd /path/to/silver  
     $ python setup.py install
     .. snip ..
 
@@ -53,18 +56,18 @@ Source install is complete.
 Post-Install Configuration
 --------------------------
 
-.. note:: Configurations for anything but Apache Web Server (httpd) and MySQL Database Server (mysqld) are not implemented yet. If you decide to use a different configuration, please consider contributing to PyCamps.
+.. note:: Configurations for anything but Apache Web Server (httpd) and MySQL Database Server (mysqld) are not implemented yet. If you decide to use a different configuration, please consider contributing to Silver.
 
 .. warning:: **DO NOT INSTALL A WEB SERVER OR DATABASE UNTIL ALL OF THE ITEMS BELOW ARE COMPLETED.**
 
 
-Setting up the PyCamps Server(s)
+Setting up the Silver Server(s)
 --------------------------------
-The PyCamps server can be set up to use either one or two machines. The key parts are the web and database components, determining which way to run PyCamps is very important as it cannot be changed once in place. The recommendation is to put everything on one beefy server making it easier to configure database connections for hosts. Notes will be made along the way where a dual server setup differs from a single server configuration.
+The Silver server can be set up to use either one or two machines. The key parts are the web and database components, determining which way to run Silver is very important as it cannot be changed once in place. The recommendation is to put everything on one beefy server making it easier to configure database connections for hosts. Notes will be made along the way where a dual server setup differs from a single server configuration.
 
 Func-ify the Server(s)
 ^^^^^^^^^^^^^^^^^^^^^^
-Func is used to help manage services that either are on another machine, like the database server, or elevate privileges for non-admin users in a controlled manner. PyCamps uses func heavily to create/remove/refresh the database LVM snapshots, start and stop the database and web servers and create configurations for the web and database servers.  There are likely other features func will enable in PyCamps in the future.
+Func is used to help manage services that either are on another machine, like the database server, or elevate privileges for non-admin users in a controlled manner. Silver uses func heavily to create/remove/refresh the database LVM snapshots, start and stop the database and web servers and create configurations for the web and database servers.  There are likely other features func will enable in Silver in the future.
 
 .. note:: If the database is on a separate server, func must be enabled on both machines. Luckily, the commands will be the same on both.
 
@@ -87,7 +90,7 @@ Once funcd and certmaster are setup, verify the configuration works by running t
 
 A return value similar to the one above means func is configured properly.  
 
-PyCamps requires one extra step to use func properly. Each user must be added to two central groups, apache (or www-dev) and a group to allow use of func. Once the group is determined, the func components will need to be altered to accommodate all system users.  In this example, the '*func*' group has been created for this purpose.
+Silver requires one extra step to use func properly. Each user must be added to two central groups, apache (or www-dev) and a group to allow use of func. Once the group is determined, the func components will need to be altered to accommodate all system users.  In this example, the '*func*' group has been created for this purpose.
 
 Once the group is created, func needs to be configured to allow that group to use its functionality::
 
@@ -106,13 +109,13 @@ Once the group is created, func needs to be configured to allow that group to us
     # setfacl -d -R -m 'g:func:rwX' /var/log/func/
     # setfacl -R -m 'g:func:rwX' /var/log/func/
 
-A convenience script '*func-add-func-group.sh*' has been provided in the conf/ directory of the PyCamps package.
+A convenience script '*func-add-func-group.sh*' has been provided in the conf/ directory of the Silver package.
 
 Database Requirements
 ^^^^^^^^^^^^^^^^^^^^^
-PyCamps makes use of Logical Volume Manager (LVM2) for quick cloning of databases.  Each database will have a master database stored in a logical volume (LV).  A camp will create an LVM snapshot when it is being created or refreshed.  When an update occurs on the live database from code in a camp, the project's master database should be updated.  This could also happen on a nightly basis, if desired.  Determining the size of the master database is crucial, and while a new database can be recreated, a camp should have ample space to grow.
+Silver makes use of Logical Volume Manager (LVM2) for quick cloning of databases.  Each database will have a master database stored in a logical volume (LV).  A camp will create an LVM snapshot when it is being created or refreshed.  When an update occurs on the live database from code in a camp, the project's master database should be updated.  This could also happen on a nightly basis, if desired.  Determining the size of the master database is crucial, and while a new database can be recreated, a camp should have ample space to grow.
 
-In most instances, it is also a good idea for the database dump script to scrub the data before using with PyCamps.  It is suggested to have the dump script do at least the following:
+In most instances, it is also a good idea for the database dump script to scrub the data before using with Silver.  It is suggested to have the dump script do at least the following:
 
 * Change the database passwords.
 * Clean out any unneeded logs or superfluous data, such as product images, session data, etc.
@@ -124,7 +127,7 @@ Once the database has been dumped to a reasonable size, snapshots can be made.  
 * A disk partition with LVM for the master databases and clones
 * Determine the master database size then divide by 1.75, then multiply by the number of camps
 
-For example, if the master database size is 3G, 3G/1.75 = 2G per camp. 2Gx10 camps # 20G Logical Volume to start. This will likely need to be known when adding a project to PyCamps. 
+For example, if the master database size is 3G, 3G/1.75 = 2G per camp. 2Gx10 camps # 20G Logical Volume to start. This will likely need to be known when adding a project to Silver. 
       
 .. note:: Keep growth in mind as databases almost always grow
 
@@ -239,7 +242,7 @@ The 'community' master database instance is complete.
 
 Automounting Database Volumes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Another technology PyCamps takes advantage of is autofs.  Each camp database, including the master camp, is mounted using autofs.
+Another technology Silver takes advantage of is autofs.  Each camp database, including the master camp, is mounted using autofs.
 
 To install and configure autofs, there are just a few steps to complete:
 
@@ -253,7 +256,7 @@ Install autofs::
 
 Copy the auto.master and auto.db from this project's conf/ to /etc/ directory.::
 
-    # cp /path/to/PyCamps/conf/auto.master /path/to/PyCamps/conf/auto.db /etc'
+    # cp /path/to/silver/conf/auto.master /path/to/silver/conf/auto.db /etc'
 
 .. note:: Any changes made previously could affect the autofs configuration, please adjust accordingly.
 

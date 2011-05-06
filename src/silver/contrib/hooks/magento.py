@@ -1,6 +1,6 @@
-# magento hooks for pycamps
+# magento hooks for silver
 
-from pycamps.contrib.hooks.base import BaseHooks
+from silver.contrib.hooks.base import BaseHooks
 
 class MagentoHooks(BaseHooks):
 

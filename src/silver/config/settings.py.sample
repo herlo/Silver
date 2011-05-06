@@ -1,7 +1,7 @@
-# PyCamps configurations loader
+# silver configurations loader
 import os
 
-# pycamps administrator (likely you)
+# silver administrator (likely you)
 ADMINS = (
     ('Andrew Spencer','ags', 'ags.github@trucemail.com'),
     ('Clint Savage', 'clints', 'clint@purpleatom.com'),
@@ -17,7 +17,7 @@ CAMPS_ROOT = '%s/camps' % (os.environ['HOME'])
 
 CAMPS_BASENAME = 'camp'
 
-# the path to the PyCamps sqlite db.  Used for tracking pertinent info like camp#, description, etc.
+# the path to the silver sqlite db.  Used for tracking pertinent info like camp#, description, etc.
 CAMPS_DB = '/tmp/testrepo/camps.db'
 
 TESTREPO_PATH = '/tmp/testrepo'
@@ -80,8 +80,8 @@ WEB_GROUP='apache'
 HTTPD_CONFIG_DIR='/etc/httpd/conf.d'
 
 # external hooks are important
-from pycamps.contrib.hooks.magento import MagentoHooks
-from pycamps.contrib.hooks.wordpress import WPHooks
+from silver.contrib.hooks.magento import MagentoHooks
+from silver.contrib.hooks.wordpress import WPHooks
 
 EXTERNAL_HOOKS = {
     'wordpress': WPHooks,

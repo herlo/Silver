@@ -5,9 +5,9 @@ import shutil
 
 import func.overlord.client as fc
 
-from pycamps.campserror import *
-from pycamps.config.projectsdb import *
-import pycamps.config.settings as settings
+from silver.campserror import *
+from silver.config.projectsdb import *
+import silver.config.settings as settings
 
 class DB:
 
