@@ -4,9 +4,9 @@ import sys
 import time
 import argparse
 
-from pycamps import camps as c, projects as p
-from pycamps import __prog__ as prog, __version__ as ver
-from pycamps.campserror import *
+from silver import camps as c, projects as p
+from silver import __prog__ as prog, __version__ as ver
+from silver.campserror import *
 
 # the order of these being instantiated is important
 # ProjectsDB must create its tables before Camps
