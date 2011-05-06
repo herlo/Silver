@@ -212,7 +212,11 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pycamps', u'Silver Documentation',
+    ('install', 'ag', u'Silver Installation',
+     [u'Clint Savage'], 8),
+    ('tutorial', 'ag', u'Silver Tutorial',
+     [u'Clint Savage'], 7),
+    ('usage_guide', 'ag', u'Silver Usage Guide',
      [u'Clint Savage'], 1)
 ]
 
