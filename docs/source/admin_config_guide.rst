@@ -1,2 +1,2 @@
-PyCamps Administration Guide
+Silver Administration Guide
 ============================
