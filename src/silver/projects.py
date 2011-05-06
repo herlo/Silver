@@ -1,4 +1,4 @@
-# Main class for pycamps
+# Main class for silver
 
 import os
 import stat
@@ -12,9 +12,9 @@ from git.errors import InvalidGitRepositoryError, NoSuchPathError, GitCommandErr
 
 import func.overlord.client as fc
 
-import pycamps.config.settings as settings
-from pycamps.config.projectsdb import *
-from pycamps.campserror import *
+import silver.config.settings as settings
+from silver.config.projectsdb import *
+from silver.campserror import *
 
 class Projects:
     """

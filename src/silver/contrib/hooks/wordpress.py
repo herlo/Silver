@@ -1,14 +1,8 @@
-# wordpress hooks for pycamps
+# wordpress hooks for silver
 
 import MySQLdb
-#
-#   cursor.execute ("SELECT VERSION()")
-#   row = cursor.fetchone ()
-#   print "server version:", row[0]
-
 
 class WPHooks:
-
 
     @classmethod
     def db_preconfig(self, settings, proj, camp_id):
@@ -17,7 +11,6 @@ class WPHooks:
     @classmethod
     def db_postconfig(self, settings, proj, camp_id):
         pass
-
 
     @classmethod
     def db_prestart(self, settings, proj, camp_id):

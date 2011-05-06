@@ -15,8 +15,8 @@ import func.overlord.client as fc
 import git
 from git.errors import InvalidGitRepositoryError, NoSuchPathError, GitCommandError
 
-from pycamps.campserror import *
-import pycamps.config.settings as settings
+from silver.campserror import *
+import silver.config.settings as settings
 
 class Web:
 

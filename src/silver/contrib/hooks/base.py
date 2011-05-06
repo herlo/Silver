@@ -1,4 +1,4 @@
-# base hooks for pycamps
+# base hooks for Silver
 
 class BaseHooks:
 
